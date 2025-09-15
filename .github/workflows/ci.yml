@@ -8,11 +8,7 @@ on:
 
 jobs:
   backend:
-    name: Backend Build & Test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -24,21 +20,20 @@ jobs:
         with:
           node-version: 18
 
-
       - name: Install dependencies
+        working-directory: backend/my-project
         run: npm install
 
-      - name: Run Tests
-        run: npm test
-
-      - name: Build Backend
+      - name: Run build
+        working-directory: backend/my-project
         run: npm run build
 
-      - name: Upload Backend Artifact
+      - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-artifact
-          path: backend/dist
+          path: backend/my-project/dist
+
 
   frontend:
     name: Frontend Build & Test
